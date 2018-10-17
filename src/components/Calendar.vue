@@ -12,8 +12,8 @@
             <th v-for="weekDay in locale.daysOfWeek" :key="weekDay">{{weekDay}}</th>
         </tr>
         <tr v-for="(dateRow, index) in calendar" :key="'date-row-' + index">
-            <slot name="date-slot" v-for="date in dateRow">
-                <td :key="date" :class="dayClass(date)" @click="$emit('dateClick', date)" @mouseover="$emit('hoverDate', date)">
+            <slot name="date-slot" v-for="(date, index) in dateRow">
+                <td :key="'date-' + index" :class="dayClass(date)" @click="$emit('dateClick', date)" @mouseover="$emit('hoverDate', date)">
                     {{date | dateNum}}
                 </td>
             </slot>
