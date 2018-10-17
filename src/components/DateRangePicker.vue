@@ -3,7 +3,7 @@
     <div class="reportrange-text" @click="togglePicker">
       <slot name="input">
         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-        <span>{{startText}}{{locale.separator}}{{endText}}</span>
+        <span>{{label}}</span>
         <b class="caret"></b>
       </slot>
     </div>
@@ -50,10 +50,12 @@
 
 <script>
 import moment from "moment";
+import { mixin as clickaway } from "vue-clickaway";
+import { findKey } from "lodash";
+
 import Calendar from "./Calendar.vue";
 import CalendarRanges from "./CalendarRanges";
 import { nextMonth, prevMonth } from "./util";
-import { mixin as clickaway } from "vue-clickaway";
 
 export default {
   components: { Calendar, CalendarRanges },
@@ -64,6 +66,10 @@ export default {
       default() {
         return {};
       }
+    },
+   showRangeLabel: {
+        type: Boolean,
+        default: false
     },
     startDate: {
       default() {
@@ -198,6 +204,17 @@ export default {
       }
       return locale;
     },
+    isRange() {
+      return findKey(this.ranges, range => {
+        return (
+          moment.utc(this.start).isSame(range[0], "day") &&
+          moment.utc(this.end).isSame(range[1], "day")
+        );
+      });
+    },
+    label() {
+        return this.showRangeLabel && this.isRange || this.startText + this.locale.separator + this.endText;
+      },
     nextMonthDate() {
       return nextMonth(this.monthDate);
     },
