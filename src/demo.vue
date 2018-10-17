@@ -98,6 +98,8 @@ export default {
       opens: "center",
       startDate: START_DATE,
       endDate: END_DATE,
+      minDate: START_DATE,
+      maxDate: END_DATE,
       showRangeLabel: false
     };
   },
