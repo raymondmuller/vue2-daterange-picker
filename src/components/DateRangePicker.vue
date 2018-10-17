@@ -19,7 +19,7 @@
               <i class="fa fa-calendar glyphicon glyphicon-calendar"></i>
             </div>
             <div class="calendar-table">
-              <calendar :monthDate="monthDate" :locale="locale" :start="start" :end="end" @nextMonth="nextMonth" @prevMonth="prevMonth" @dateClick="dateClick" @hoverDate="hoverDate"></calendar>
+              <calendar :monthDate="monthDate" :locale="locale" :start="start" :end="end" @nextMonth="nextMonth" @prevMonth="prevMonth" @dateClick="dateClick" @hoverDate="hoverDate" :minDate="min" :maxDate="max"></calendar>
             </div>
           </div>
 
@@ -30,7 +30,7 @@
               <i class="fa fa-calendar glyphicon glyphicon-calendar"></i>
             </div>
             <div class="calendar-table">
-              <calendar :monthDate="nextMonthDate" :locale="locale" :start="start" :end="end" @nextMonth="nextMonth" @prevMonth="prevMonth" @dateClick="dateClick" @hoverDate="hoverDate"></calendar>
+              <calendar :monthDate="nextMonthDate" :locale="locale" :start="start" :end="end" @nextMonth="nextMonth" @prevMonth="prevMonth" @dateClick="dateClick" @hoverDate="hoverDate" :minDate="min" :maxDate="max"></calendar>
             </div>
           </div>
         </div>
@@ -71,6 +71,8 @@ export default {
         type: Boolean,
         default: false
     },
+    minDate: {},
+    maxDate: {},
     startDate: {
       default() {
         return new Date();
@@ -119,6 +121,8 @@ export default {
   data() {
     return {
       monthDate: new Date(this.startDate),
+      min: this.minDate ? new Date(this.minDate) : null,
+      max: this.maxDate ? new Date(this.maxDate) : null,
       start: new Date(this.startDate),
       end: new Date(this.endDate),
       inSelection: false,
@@ -226,6 +230,12 @@ export default {
     }
   },
   watch: {
+    minDate(value) {
+        this.min = new Date(value);
+      },
+      maxDate(value) {
+        this.max = new Date(value);
+      },
     startDate(value) {
       this.start = new Date(value);
     },
